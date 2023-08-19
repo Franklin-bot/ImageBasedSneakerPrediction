@@ -11,4 +11,4 @@ Models
     Dense(nodes: 128, activation: relu)
     Dense(nodes: 256, activation: relu)
     Dense(nodes: 128, activation: relu)
-    Dense(nodes: 1, activation: relu)
+    Dense(nodes: 1, activation: none)
