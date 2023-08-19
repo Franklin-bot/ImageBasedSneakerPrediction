@@ -11,6 +11,9 @@ The dataset was collected by webscraping StockX.com; it consists of images and c
 ## Model
 ![Model (3)](https://github.com/Franklin-bot/ImageBasedSneakerPrediction/assets/63462715/e8bbce3f-6a67-489b-8397-cdda19b771f5)
 
+## Results
+<img width="603" alt="Screenshot 2023-08-19 at 3 56 45 PM" src="https://github.com/Franklin-bot/ImageBasedSneakerPrediction/assets/63462715/9f85fc78-4760-4151-a92d-8c40a476435f">
+
 
 
 
