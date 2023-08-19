@@ -1,5 +1,5 @@
 # Models
-### 1:
+### model_1.h5:
     Convolutional(filters: 16, window: 3x3, stride:1, activation: relu)
     MaxPooling(2x2)
     Convolutional(filters: 32, window: 3x3, stride:1, activation: relu)
