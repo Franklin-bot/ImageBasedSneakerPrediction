@@ -1,13 +1,14 @@
-from bs4 import BeautifulSoup
-import requests
-import json
-import math
-import pandas as pd
-from nested_lookup import nested_lookup
-from tqdm import tqdm
-from requests_ip_rotator import ApiGateway
 
 def data_collection():
+
+    from bs4 import BeautifulSoup
+    import requests
+    import json
+    import math
+    import pandas as pd
+    from nested_lookup import nested_lookup
+    from tqdm import tqdm
+    from requests_ip_rotator import ApiGateway
 
     def parseNextCache(url, session):
         page = session.get(url)
@@ -51,8 +52,6 @@ def data_collection():
     df['last sale'] = sales
 
     df.to_csv(path_or_buf="/Users/FranklinZhao/TensorFlowProjects/ImageBasedSneakerPrediction/data/raw/" + "5000_output.csv", sep='\t')
-
-if __name__ == '__main__':
 
     
 
