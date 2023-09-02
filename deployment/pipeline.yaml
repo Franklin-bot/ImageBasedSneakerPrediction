@@ -1,0 +1,112 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: sneaker-pipeline-
+  annotations: {pipelines.kubeflow.org/kfp_sdk_version: 1.8.22, pipelines.kubeflow.org/pipeline_compilation_time: '2023-09-01T22:18:47.993820',
+    pipelines.kubeflow.org/pipeline_spec: '{"name": "sneaker-pipeline"}'}
+  labels: {pipelines.kubeflow.org/kfp_sdk_version: 1.8.22}
+spec:
+  entrypoint: sneaker-pipeline
+  templates:
+  - name: data-collection-component
+    container:
+      args: [--executor_input, '{{$}}', --function_to_execute, data_collection_component]
+      command:
+      - sh
+      - -c
+      - |2
+
+        if ! [ -x "$(command -v pip)" ]; then
+            python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip
+        fi
+
+        PIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet     --no-warn-script-location 'kfp==1.8.22' && "$0" "$@"
+      - sh
+      - -ec
+      - |
+        program_path=$(mktemp -d)
+        printf "%s" "$0" > "$program_path/ephemeral_component.py"
+        python3 -m kfp.v2.components.executor_main                         --component_module_path                         "$program_path/ephemeral_component.py"                         "$@"
+      - |2+
+
+        import kfp
+        from kfp.v2 import dsl
+        from kfp.v2.dsl import *
+        from typing import *
+
+        def data_collection_component():
+            collect_data()
+
+      image: 153555882801.dkr.ecr.us-east-2.amazonaws.com/sneaker-cluster
+    metadata:
+      labels:
+        pipelines.kubeflow.org/kfp_sdk_version: 1.8.22
+        pipelines.kubeflow.org/pipeline-sdk-type: kfp
+        pipelines.kubeflow.org/enable_caching: "true"
+      annotations: {pipelines.kubeflow.org/component_spec: '{"implementation": {"container":
+          {"args": ["--executor_input", {"executorInput": null}, "--function_to_execute",
+          "data_collection_component"], "command": ["sh", "-c", "\nif ! [ -x \"$(command
+          -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user
+          || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3
+          -m pip install --quiet     --no-warn-script-location ''kfp==1.8.22'' &&
+          \"$0\" \"$@\"\n", "sh", "-ec", "program_path=$(mktemp -d)\nprintf \"%s\"
+          \"$0\" > \"$program_path/ephemeral_component.py\"\npython3 -m kfp.v2.components.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+          "\nimport kfp\nfrom kfp.v2 import dsl\nfrom kfp.v2.dsl import *\nfrom typing
+          import *\n\ndef data_collection_component():\n    collect_data()\n\n"],
+          "image": "153555882801.dkr.ecr.us-east-2.amazonaws.com/sneaker-cluster"}},
+          "name": "Data collection component"}', pipelines.kubeflow.org/component_ref: '{}'}
+  - name: data-processing-component
+    container:
+      args: [--executor_input, '{{$}}', --function_to_execute, data_processing_component]
+      command:
+      - sh
+      - -c
+      - |2
+
+        if ! [ -x "$(command -v pip)" ]; then
+            python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip
+        fi
+
+        PIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet     --no-warn-script-location 'kfp==1.8.22' && "$0" "$@"
+      - sh
+      - -ec
+      - |
+        program_path=$(mktemp -d)
+        printf "%s" "$0" > "$program_path/ephemeral_component.py"
+        python3 -m kfp.v2.components.executor_main                         --component_module_path                         "$program_path/ephemeral_component.py"                         "$@"
+      - |2+
+
+        import kfp
+        from kfp.v2 import dsl
+        from kfp.v2.dsl import *
+        from typing import *
+
+        def data_processing_component():
+            process_data()
+
+      image: 153555882801.dkr.ecr.us-east-2.amazonaws.com/sneaker-cluster
+    metadata:
+      labels:
+        pipelines.kubeflow.org/kfp_sdk_version: 1.8.22
+        pipelines.kubeflow.org/pipeline-sdk-type: kfp
+        pipelines.kubeflow.org/enable_caching: "true"
+      annotations: {pipelines.kubeflow.org/component_spec: '{"implementation": {"container":
+          {"args": ["--executor_input", {"executorInput": null}, "--function_to_execute",
+          "data_processing_component"], "command": ["sh", "-c", "\nif ! [ -x \"$(command
+          -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user
+          || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3
+          -m pip install --quiet     --no-warn-script-location ''kfp==1.8.22'' &&
+          \"$0\" \"$@\"\n", "sh", "-ec", "program_path=$(mktemp -d)\nprintf \"%s\"
+          \"$0\" > \"$program_path/ephemeral_component.py\"\npython3 -m kfp.v2.components.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+          "\nimport kfp\nfrom kfp.v2 import dsl\nfrom kfp.v2.dsl import *\nfrom typing
+          import *\n\ndef data_processing_component():\n    process_data()\n\n"],
+          "image": "153555882801.dkr.ecr.us-east-2.amazonaws.com/sneaker-cluster"}},
+          "name": "Data processing component"}', pipelines.kubeflow.org/component_ref: '{}'}
+  - name: sneaker-pipeline
+    dag:
+      tasks:
+      - {name: data-collection-component, template: data-collection-component}
+      - {name: data-processing-component, template: data-processing-component}
+  arguments:
+    parameters: []
+  serviceAccountName: pipeline-runner

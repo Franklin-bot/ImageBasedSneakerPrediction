@@ -1,5 +1,4 @@
-
-def data_collection():
+def collect_data():
 
     from bs4 import BeautifulSoup
     import requests
@@ -51,7 +50,9 @@ def data_collection():
     df  = pd.DataFrame(preview)
     df['last sale'] = sales
 
-    df.to_csv(path_or_buf="/Users/FranklinZhao/TensorFlowProjects/ImageBasedSneakerPrediction/data/raw/" + "5000_output.csv", sep='\t')
+    import boto3
+    s3 = boto3.resource("s3")
+    df.to_csv('s3://sneaker-dataset/5000_output.csv')
 
     
 
