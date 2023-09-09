@@ -16,6 +16,9 @@ Images: 128 x 128, jpg.
 Trained with Google Colab.\
 <img width="603" alt="Screenshot 2023-08-19 at 3 56 45 PM" src="https://github.com/Franklin-bot/ImageBasedSneakerPrediction/assets/63462715/9f85fc78-4760-4151-a92d-8c40a476435f">
 
-
+## Deployment
+Sneaker prices are constantly changing, and the model must continuously retrain to maintain its accuracy. To do this, I created an auto ML pipeline that can automatically collect new data, process it, and retrain the model when run. \
+\
+The pipeline is dockerized and deployed with kubernetes via Kubeflow on AWS, utilizing EKS clusters, EC2 instances, and S3 storage. This allows for real-time optimization/scaling (up to 10 m5.large instances), drift monitoring, and automated continuous learning.
 
 
