@@ -6,7 +6,7 @@ The sneaker resell market was worth an estimated $10.6 billion in 2022. The aim 
 Theoretically, models trained with images will perform better than those trained with just tabular data, since for sneakers, like art, value is highly correlated with design. This model extracts features from sneaker images and conducts regression with this information.
 
 ## Data
-The dataset was collected by webscraping StockX.com; it consists of images and current resell prices for all ~293,000 different sneakers sold on StockX. Unfortunately, the training dataset was limited to only 5,000 images, due to hardware limitations.\
+The dataset was collected by webscraping StockX.com; it consists of images and current resell prices for all ~293,000 different sneakers sold on StockX. 
 Images: 128 x 128, jpg.
 
 ## Model
